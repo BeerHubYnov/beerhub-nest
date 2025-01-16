@@ -14,8 +14,60 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid()) @db.Uuid
-  email    String @unique @db.VarChar(50)
-  password String @db.VarChar(50)
-  username String @db.VarChar(50)
+  id         String       @id @default(uuid()) @db.Uuid
+  email      String       @unique @db.VarChar(50)
+  password   String       @db.VarChar(50)
+  username   String       @db.VarChar(50)
+  id_Role    String       @db.Uuid
+  Favorite   Favorite[]
+  Assessment Assessment[]
+  Bar        Bar[]
+  Role       Role         @relation(fields: [id_Role], references: [id])
+}
+
+model Bar {
+  id            String       @id @default(uuid()) @db.Uuid
+  name          String       @db.VarChar(50)
+  description   String       @db.VarChar(250)
+  happyHoure    String       @db.VarChar(50)
+  localisationX Float        @db.DoublePrecision
+  localisationY Float        @db.DoublePrecision
+  Favorite      Favorite[]
+  Event         Event[]
+  Assessment    Assessment[]
+  id_User       String       @db.Uuid
+  User          User         @relation(fields: [id_User], references: [id])
+}
+
+model Event {
+  id          String   @id @default(uuid()) @db.Uuid
+  dateHour    DateTime @db.Timestamp
+  title       String   @db.VarChar(50)
+  description String   @db.VarChar(250)
+  id_Bar      String   @db.Uuid
+  Bar         Bar      @relation(fields: [id_Bar], references: [id])
+}
+
+model Role {
+  id   String @id @default(uuid()) @db.Uuid
+  name String @db.VarChar(50)
+  User User[]
+}
+
+model Favorite {
+  id      String @id @default(uuid()) @db.Uuid
+  id_User String @db.Uuid
+  id_Bar  String @db.Uuid
+  User    User   @relation(fields: [id_User], references: [id])
+  Bar     Bar    @relation(fields: [id_Bar], references: [id])
+}
+
+model Assessment {
+  id      String @id @default(uuid()) @db.Uuid
+  note    Int    @db.Integer
+  comment String @db.VarChar(50)
+  id_User String @db.Uuid
+  id_Bar  String @db.Uuid
+  User    User   @relation(fields: [id_User], references: [id])
+  Bar     Bar    @relation(fields: [id_Bar], references: [id])
 }

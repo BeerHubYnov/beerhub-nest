@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private readonly prisma: PrismaService ) {}
+
+  async create(createUserDto: CreateUserDto) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: createUserDto.email },
+    });
+
+    if (existingUser) {
+      throw new UnauthorizedException('User already exists');
+    }
+
+    return this.prisma.user.create({
+      data: {
+        id: uuidv4(),
+        ...createUserDto,
+      }
+    });
   }
 
   findAll() {
-    return `This action returns all user`;
+    return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  update(id: string, updateUserDto: UpdateUserDto) {
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id: string) {
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 }

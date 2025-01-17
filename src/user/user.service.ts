@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { v4 as uuidv4 } from 'uuid';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class UserService {
@@ -29,20 +30,20 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: string) {
+  findOne(id: UUID) {
     return this.prisma.user.findUnique({
       where: { id },
     });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  update(id: UUID, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
   }
 
-  remove(id: string) {
+  remove(id: UUID) {
     return this.prisma.user.delete({
       where: { id },
     });

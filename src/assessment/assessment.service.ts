@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAssessmentDto } from './dto/create-assessment.dto';
 import { UpdateAssessmentDto } from './dto/update-assessment.dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class AssessmentService {
+  constructor(private prisma: PrismaService) { }
+
   create(createAssessmentDto: CreateAssessmentDto) {
-    return 'This action adds a new assessment';
+    return this.prisma.assessment.create({
+      data: createAssessmentDto,
+    });
   }
 
   findAll() {
-    return `This action returns all assessment`;
+    return this.prisma.assessment.findMany({
+      include: { User: true, Bar: true }
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} assessment`;
+  findOne(id: UUID) {
+    return this.prisma.assessment.findUnique({
+      where: { id },
+      include: { User: true, Bar: true }
+    });
   }
 
-  update(id: number, updateAssessmentDto: UpdateAssessmentDto) {
-    return `This action updates a #${id} assessment`;
+  update(id: UUID, updateAssessmentDto: UpdateAssessmentDto) {
+    return this.prisma.assessment.update({
+      where: { id },
+      data: updateAssessmentDto
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} assessment`;
+  remove(id: UUID) {
+    return this.prisma.assessment.delete({
+      where: { id }
+    });
+  }
+
+  findByUser(id_User: UUID) {
+    return this.prisma.assessment.findMany({
+      where: { id_User },
+      include: { User: true, Bar: true }
+    });
+  }
+
+  findByBar(id_Bar: UUID) {
+    return this.prisma.assessment.findMany({
+      where: { id_Bar },
+      include: { User: true, Bar: true }
+    });
   }
 }

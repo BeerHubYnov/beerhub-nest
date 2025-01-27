@@ -5,9 +5,10 @@ import { BarModule } from './bar/bar.module';
 import { UserModule } from './user/user.module';
 import { EventModule } from './event/event.module';
 import { FavoriteModule } from './favorite/favorite.module';
+import { AssessmentModule } from './assessment/assessment.module';
 
 @Module({
-  imports: [UserModule, BarModule, EventModule, FavoriteModule],
+  imports: [UserModule, BarModule, EventModule, FavoriteModule, AssessmentModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { LoginDto } from './dto/auth.dto';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
     pass: string,
   ): Promise<CreateUserDto | null> {
     const user = await this.userService.findByUsername(username);
-    if (user && user.password === pass) {
+    if (user && (await bcrypt.compare(pass, user.password))) {
       const { password, ...result } = user; // eslint-disable-line @typescript-eslint/no-unused-vars
       return {
         userId: Number(user.id),
@@ -59,7 +60,11 @@ export class AuthService {
     if (await this.userService.findByUsername(user.username)) {
       throw new ConflictException('Username already exists');
     }
-    const createdUser = await this.userService.create(user);
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const createdUser = await this.userService.create({
+      ...user,
+      password: hashedPassword,
+    });
     return {
       message: 'User successfully registered',
       user: {

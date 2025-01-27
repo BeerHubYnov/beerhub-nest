@@ -5,6 +5,6 @@ import { PrismaService } from 'prisma/prisma.service';
 
 @Module({
   controllers: [FavoriteController],
-  providers: [FavoriteService,PrismaService],
+  providers: [FavoriteService, PrismaService],
 })
 export class FavoriteModule {}

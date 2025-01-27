@@ -4,10 +4,9 @@ import { UpdateFavoriteDto } from './dto/update-favorite.dto';
 import { UUID } from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 
-
 @Injectable()
 export class FavoriteService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   create(createFavoriteDto: CreateFavoriteDto) {
     return this.prisma.favorite.create({
@@ -16,14 +15,12 @@ export class FavoriteService {
   }
 
   findAll() {
-    return this.prisma.favorite.findMany(
-      {
-        include: {
-          User: true,
-          Bar: true
-        }
-      }
-    );
+    return this.prisma.favorite.findMany({
+      include: {
+        User: true,
+        Bar: true,
+      },
+    });
   }
 
   findOne(id: UUID) {
@@ -31,21 +28,21 @@ export class FavoriteService {
       where: { id },
       include: {
         User: true,
-        Bar: true
-      }
+        Bar: true,
+      },
     });
   }
 
   update(id: UUID, updateFavoriteDto: UpdateFavoriteDto) {
     return this.prisma.favorite.update({
       where: { id },
-      data: updateFavoriteDto
+      data: updateFavoriteDto,
     });
   }
 
   remove(id: UUID) {
     return this.prisma.favorite.delete({
-      where: { id }
+      where: { id },
     });
   }
 
@@ -54,8 +51,8 @@ export class FavoriteService {
       where: { id_User },
       include: {
         User: true,
-        Bar: true
-      }
+        Bar: true,
+      },
     });
   }
 
@@ -64,8 +61,8 @@ export class FavoriteService {
       where: { id_Bar },
       include: {
         User: true,
-        Bar: true
-      }
+        Bar: true,
+      },
     });
   }
 }

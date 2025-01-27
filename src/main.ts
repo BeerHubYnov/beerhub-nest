@@ -17,7 +17,6 @@ async function bootstrap() {
     origin: 'http://localhost:5173',
     methods: 'GET,POST,PUT,DELETE,OPTIONS',
     credentials: true,
-
   });
 
   await app.listen(3000);

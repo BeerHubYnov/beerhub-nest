@@ -30,13 +30,13 @@ export class EventService {
   async update(id: UUID, updateEventDto: UpdateEventDto) {
     return this.prisma.event.update({
       where: { id },
-      data: updateEventDto
+      data: updateEventDto,
     });
   }
 
   async remove(id: UUID) {
     return this.prisma.event.delete({
-      where: { id }
+      where: { id },
     });
   }
 

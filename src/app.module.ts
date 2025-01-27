@@ -6,9 +6,17 @@ import { UserModule } from './user/user.module';
 import { EventModule } from './event/event.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { AssessmentModule } from './assessment/assessment.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule, BarModule, EventModule, FavoriteModule, AssessmentModule],
+  imports: [
+    UserModule,
+    BarModule,
+    EventModule,
+    FavoriteModule,
+    AssessmentModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

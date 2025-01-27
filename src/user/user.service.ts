@@ -7,7 +7,7 @@ import { UUID } from 'crypto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     const existingUser = await this.prisma.user.findUnique({
@@ -22,7 +22,7 @@ export class UserService {
       data: {
         id: uuidv4(),
         ...createUserDto,
-      }
+      },
     });
   }
 
@@ -46,6 +46,18 @@ export class UserService {
   remove(id: UUID) {
     return this.prisma.user.delete({
       where: { id },
+    });
+  }
+
+  async findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  async findByUsername(username: string) {
+    return this.prisma.user.findFirst({
+      where: { username },
     });
   }
 }

@@ -58,6 +58,19 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Prisma Migrate
+
+```
+
+Rajouter dans le .env : 
+ SHADOW_DATABASE_URL="postgresql://beerhubynov:YnovHub123@postgresql-beerhubynov.alwaysdata.net:5432/beerhubynov_postgres?schema=public"
+
+Et dans le shema.prisma : 
+      shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+
+Puis lancer : npx prisma migrate dev --name
+```
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.

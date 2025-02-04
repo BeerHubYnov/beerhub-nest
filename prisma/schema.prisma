@@ -26,7 +26,6 @@ model User {
   sentMessages     Message[]        @relation("SentMessages")
   receivedMessages Message[]        @relation("ReceivedMessages")
   groupMembers     GroupMember[]
-  conversations    Conversation[]   @relation("UserConversations")
   Role             Role             @relation(fields: [id_Role], references: [id])
 }
 
@@ -83,8 +82,6 @@ model Message {
   createdAt      DateTime     @default(now())
   senderId       String       @db.Uuid
   sender         User         @relation("SentMessages", fields: [senderId], references: [id])
-  conversationId Int?
-  conversation   Conversation? @relation(fields: [conversationId], references: [id])
   groupId        Int?
   group          Group?       @relation(fields: [groupId], references: [id])
   receiverId     String?      @db.Uuid
@@ -110,11 +107,4 @@ model GroupMember {
   joinedAt  DateTime @default(now())
 
   @@unique([userId, groupId])
-}
-
-model Conversation {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  messages  Message[]
-  participants User[] @relation("UserConversations")
 }

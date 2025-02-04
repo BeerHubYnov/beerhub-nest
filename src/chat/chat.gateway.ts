@@ -34,14 +34,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         try {
             const authToken = client.handshake.headers.authorization;
             const payload = this.jwtService.verify(authToken, {
-                secret: process.env.JWT_SECRET
+                secret: process.env.JWT_SECRET,
             });
 
             if (!payload) {
                 throw new WsException('Invalid token');
             }
 
-            const userId = payload.sub
+            const userId = payload.sub;
             this.connectedUsers.set(client.id, userId);
             
             // Rejoindre tous les groupes de l'utilisateur
@@ -67,24 +67,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     async handlePrivateMessage(client: Socket, payload: { receiverId: string, content: string }) {
         const senderId = this.connectedUsers.get(client.id);
         
-        // Créer ou récupérer une conversation existante
-        const conversation = await this.prisma.conversation.create({
-            data: {
-                participants: {
-                    connect: [
-                        { id: senderId },
-                        { id: payload.receiverId }
-                    ]
-                }
-            }
-        });
-        
         // Sauvegarder le message
         const message = await this.prisma.message.create({
             data: {
                 content: payload.content,
                 senderId,
-                conversationId: conversation.id,
                 receiverId: payload.receiverId,
             },
             include: {
@@ -97,7 +84,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             .map(([k]) => k);
 
         // Émettre le message au destinataire
-        this.server.to(receiverSocketId).emit('privateMessage', message);
+        this.server.to(receiverSocketId).emit('privateMessage', {
+            id: message.id,
+            content: message.content,
+            createAt: message.createdAt,
+            senderId: message.senderId,
+            receiverId: message.receiverId,
+        });
     }
     
     @SubscribeMessage('sendGroupMessage')
@@ -131,6 +124,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         });
         
         // Émettre le message à tous les membres du groupe
-        this.server.to(`group:${payload.groupId}`).emit('groupMessage', message);
+        this.server.to(`group:${payload.groupId}`).emit('groupMessage', {
+            id: message.id,
+            content: message.content,
+            createAt: message.createdAt,
+            senderId: message.senderId,
+            receiverId: message.receiverId,
+        });
     }
 }

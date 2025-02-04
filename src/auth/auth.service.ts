@@ -19,7 +19,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(user: LoginDto): Promise<{ userId: string, access_token: string }> {
+  async login(
+    user: LoginDto,
+  ): Promise<{ userId: string; access_token: string }> {
     const foundUser = await this.userService.findByUsername(user.username);
     if (!foundUser) {
       throw new NotFoundException('User not found');

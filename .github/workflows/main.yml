@@ -30,7 +30,7 @@ jobs:
         run: npm run build
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --coverage --coverageReporters=lcov
 
   lint:
     runs-on: ubuntu-latest
@@ -90,4 +90,8 @@ jobs:
           sonar-scanner \
           -Dsonar.organization=beerhubynov \
           -Dsonar.projectKey=BeerHubYnov_beerhub-nest \
-          -Dsonar.sources=.
+          -Dsonar.sources=. \
+          -Dsonar.tests=. \
+          -Dsonar.test.inclusions=**/*.spec.ts \
+          -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info \
+          -Dsonar.testExecutionReportPaths=coverage/sonar-report.xml

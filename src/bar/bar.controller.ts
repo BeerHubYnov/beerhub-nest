@@ -53,4 +53,9 @@ export class BarController {
   remove(@Param('id') id: UUID) {
     return this.barService.remove(id);
   }
+
+  @Get('user/:id_User')
+  findByUser(@Param('id_User') id_User: UUID) {
+    return this.barService.findByUser(id_User);
+  }
 }

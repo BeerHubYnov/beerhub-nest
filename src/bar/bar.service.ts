@@ -63,4 +63,11 @@ export class BarService {
       where: { id },
     });
   }
+
+  async findByUser(id_User: UUID) {
+    return this.prisma.bar.findMany({
+      where: { id_User },
+      include: { User: true },
+    });
+  }
 }

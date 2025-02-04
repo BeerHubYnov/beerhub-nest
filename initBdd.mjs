@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { env } from 'process';
 
 const prisma = new PrismaClient();
 
@@ -40,7 +39,7 @@ async function createUserBasic() {
   const user = await prisma.user.create({
     data: {
       email: 'user@bordeaux.com',
-      password: env('DATABASE_URL'),
+      password: 'TestBx',
       username: 'userBdx',
       id_Role: role.id, // User role
     },

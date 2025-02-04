@@ -158,6 +158,7 @@ async function main() {
     await createEvent();
     await createFavorite();
     await createAssessment();
+    await createUserTestFront();
   } catch (error) {
     console.error('Error creating roles:', error);
   } finally {

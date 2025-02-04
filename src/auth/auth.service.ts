@@ -12,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  private revokedTokens: Set<string> = new Set();
+  private readonly revokedTokens: Set<string> = new Set();
 
   constructor(
     private readonly userService: UserService,

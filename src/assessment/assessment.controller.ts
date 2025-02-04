@@ -11,7 +11,6 @@ import { AssessmentService } from './assessment.service';
 import { CreateAssessmentDto } from './dto/create-assessment.dto';
 import { UpdateAssessmentDto } from './dto/update-assessment.dto';
 import { UUID } from 'crypto';
-import { get } from 'http';
 
 @Controller('assessment')
 export class AssessmentController {

@@ -15,15 +15,19 @@ datasource db {
 }
 
 model User {
-  id         String       @id @default(uuid()) @db.Uuid
-  email      String       @unique @db.VarChar(50)
-  password   String       @db.VarChar(50)
-  username   String       @db.VarChar(50)
-  id_Role    String       @db.Uuid
-  Favorite   Favorite[]
-  Assessment Assessment[]
-  Bar        Bar[]
-  Role       Role         @relation(fields: [id_Role], references: [id])
+  id               String           @id @default(uuid()) @db.Uuid
+  email            String           @unique @db.VarChar(50)
+  password         String           @db.VarChar(50)
+  username         String           @db.VarChar(50)
+  id_Role          String           @db.Uuid
+  Favorite         Favorite[]
+  Assessment       Assessment[]
+  Bar              Bar[]
+  sentMessages     Message[]        @relation("SentMessages")
+  receivedMessages Message[]        @relation("ReceivedMessages")
+  groupMembers     GroupMember[]
+  conversations    Conversation[]   @relation("UserConversations")
+  Role             Role             @relation(fields: [id_Role], references: [id])
 }
 
 model Bar {
@@ -71,4 +75,46 @@ model Assessment {
   id_Bar  String @db.Uuid
   User    User   @relation(fields: [id_User], references: [id])
   Bar     Bar    @relation(fields: [id_Bar], references: [id])
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  content        String
+  createdAt      DateTime     @default(now())
+  senderId       String       @db.Uuid
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id])
+  conversationId Int?
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  groupId        Int?
+  group          Group?       @relation(fields: [groupId], references: [id])
+  receiverId     String?      @db.Uuid
+  receiver       User?        @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model Group {
+  id          Int           @id @default(autoincrement())
+  name        String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  messages    Message[]
+  members     GroupMember[]
+}
+
+model GroupMember {
+  id        Int      @id @default(autoincrement())
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
+  groupId   Int
+  group     Group    @relation(fields: [groupId], references: [id])
+  role      String   @default("MEMBER") // ADMIN, MEMBER
+  joinedAt  DateTime @default(now())
+
+  @@unique([userId, groupId])
+}
+
+model Conversation {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  messages  Message[]
+  participants User[] @relation("UserConversations")
 }

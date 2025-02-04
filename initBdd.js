@@ -46,6 +46,22 @@ async function createUserBasic() {
   });
 
   console.log(`User created: ${user.username}`);
+}async function createUserTestFront() {
+  const role = await prisma.role.findFirst({
+    where: {
+      name: 'User',
+    },
+  });
+  const user = await prisma.user.create({
+    data: {
+      email: 'test@test.com',
+      password: 'test',
+      username: 'test',
+      id_Role: role.id, // User role
+    },
+  });
+
+  console.log(`User created: ${user.username}`);
 }
 
 async function createBar() {

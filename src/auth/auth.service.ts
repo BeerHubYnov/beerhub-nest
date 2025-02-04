@@ -19,7 +19,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(user: LoginDto): Promise<{ access_token: string }> {
+  async login(user: LoginDto): Promise<{ userId: string, access_token: string }> {
     const foundUser = await this.userService.findByUsername(user.username);
     if (!foundUser) {
       throw new NotFoundException('User not found');
@@ -33,6 +33,7 @@ export class AuthService {
     }
     const payload = { username: user.username, userId: foundUser.id };
     return {
+      userId: foundUser.id,
       access_token: this.jwtService.sign(payload),
     };
   }

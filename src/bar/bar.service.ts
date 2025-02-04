@@ -6,7 +6,7 @@ import { UUID } from 'crypto';
 
 @Injectable()
 export class BarService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createBarDto: CreateBarDto) {
     return this.prisma.bar.create({

@@ -11,7 +11,7 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
-  private revokedTokens: Set<string> = new Set();
+  private readonly revokedTokens: Set<string> = new Set();
 
   constructor(
     private readonly userService: UserService,
@@ -24,7 +24,6 @@ export class AuthService {
   ): Promise<CreateUserDto | null> {
     const user = await this.userService.findByUsername(username);
     if (user && user.password === pass) {
-      const { password, ...result } = user; // eslint-disable-line @typescript-eslint/no-unused-vars
       return {
         userId: Number(user.id),
         email: user.email,

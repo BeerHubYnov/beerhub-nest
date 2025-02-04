@@ -38,27 +38,9 @@ describe('BarService', () => {
     expect(await service.findAll()).toEqual(bars);
   });
 
-  // it('should find one bar by id', async () => {
-  //   const bar = { name: 'Test Bar' };
-  //   prisma.bar.findUnique = jest.fn().mockReturnValue(bar);
-  //   expect(await service.findOne('some-uuid')).toEqual(bar);
-  // });
-
   it('should find one bar by name', async () => {
     const bar = { name: 'Test Bar' };
     prisma.bar.findFirst = jest.fn().mockReturnValue(bar);
     expect(await service.findOneByName('Test')).toEqual(bar);
   });
-
-  // it('should update a bar', async () => {
-  //   const updateBarDto = { name: 'Updated Bar' };
-  //   prisma.bar.update = jest.fn().mockReturnValue(updateBarDto);
-  //   expect(await service.update('some-uuid', updateBarDto)).toEqual(updateBarDto);
-  // });
-
-  // it('should remove a bar', async () => {
-  //   const bar = { name: 'Test Bar' };
-  //   prisma.bar.delete = jest.fn().mockReturnValue(bar);
-  //   expect(await service.remove('some-uuid')).toEqual(bar);
-  // });
 });

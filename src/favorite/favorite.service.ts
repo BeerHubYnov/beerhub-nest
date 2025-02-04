@@ -6,7 +6,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class FavoriteService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   create(createFavoriteDto: CreateFavoriteDto) {
     return this.prisma.favorite.create({

@@ -57,6 +57,7 @@ describe('UserService', () => {
     expect(result).toEqual(user);
     expect(prismaService.user.findUnique).toHaveBeenCalledWith({
       where: { id: '233aad60-87d7-4b8f-b363-db47b6ed942c' },
+      include: { role: true },
     });
   });
 
@@ -75,6 +76,7 @@ describe('UserService', () => {
     expect(prismaService.user.update).toHaveBeenCalledWith({
       where: { id: '233aad60-87d7-4b8f-b363-db47b6ed942c' },
       data: dto,
+      include: { role: true },
     });
   });
 

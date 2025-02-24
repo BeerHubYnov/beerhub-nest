@@ -35,7 +35,7 @@ export class SubscriptionController {
     return this.subscriptionService.findOne(id, id_User, id_Event);
   }
 
-  @Patch(':id')
+  @Patch(':id/:id_User/:id_Event')
   update(
     @Param('id') id: UUID,
     @Param('id_User') id_User: UUID,
@@ -50,7 +50,7 @@ export class SubscriptionController {
     );
   }
 
-  @Delete(':id')
+  @Delete(':id/:id_User/:id_Event')
   remove(
     @Param('id') id: UUID,
     @Param('id_User') id_User: UUID,

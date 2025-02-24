@@ -8,6 +8,7 @@ import { FavoriteModule } from './favorite/favorite.module';
 import { AssessmentModule } from './assessment/assessment.module';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './role/role.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RoleModule } from './role/role.module';
     AssessmentModule,
     AuthModule,
     RoleModule,
+    SubscriptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

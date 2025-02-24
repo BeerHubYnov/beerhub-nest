@@ -44,6 +44,7 @@ model Event {
   dateHour     DateTime       @db.Timestamp(6)
   title        String         @db.VarChar(50)
   description  String         @db.VarChar(250)
+  category     String         @db.VarChar(250)
   id_Bar       String         @db.Uuid
   Bar          Bar            @relation(fields: [id_Bar], references: [id])
   Subscription Subscription[]

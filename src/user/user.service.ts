@@ -27,12 +27,19 @@ export class UserService {
   }
 
   findAll() {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      include: {
+        Role: true,
+      },
+    });
   }
 
   findOne(id: UUID) {
     return this.prisma.user.findUnique({
       where: { id },
+      include: {
+        Role: true,
+      },
     });
   }
 
@@ -52,12 +59,18 @@ export class UserService {
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
+      include: {
+        Role: true,
+      },
     });
   }
 
   async findByUsername(username: string) {
     return this.prisma.user.findFirst({
       where: { username },
+      include: {
+        Role: true,
+      },
     });
   }
 }

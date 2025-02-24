@@ -26,36 +26,26 @@ export class SubscriptionController {
     return this.subscriptionService.findAll();
   }
 
-  @Get(':id/:id_User/:id_Event')
-  findOne(
-    @Param('id') id: UUID,
-    @Param('id_User') id_User: UUID,
-    @Param('id_Event') id_Event: UUID,
-  ) {
-    return this.subscriptionService.findOne(id, id_User, id_Event);
+  @Get(':id_User/:id_Event')
+  findOne(@Param('id_User') id_User: UUID, @Param('id_Event') id_Event: UUID) {
+    return this.subscriptionService.findOne(id_User, id_Event);
   }
 
-  @Patch(':id/:id_User/:id_Event')
+  @Patch(':id_User/:id_Event')
   update(
-    @Param('id') id: UUID,
     @Param('id_User') id_User: UUID,
     @Param('id_Event') id_Event: UUID,
     @Body() updateSubscriptionDto: UpdateSubscriptionDto,
   ) {
     return this.subscriptionService.update(
-      id,
       id_User,
       id_Event,
       updateSubscriptionDto,
     );
   }
 
-  @Delete(':id/:id_User/:id_Event')
-  remove(
-    @Param('id') id: UUID,
-    @Param('id_User') id_User: UUID,
-    @Param('id_Event') id_Event: UUID,
-  ) {
-    return this.subscriptionService.remove(id, id_User, id_Event);
+  @Delete(':id_User/:id_Event')
+  remove(@Param('id_User') id_User: UUID, @Param('id_Event') id_Event: UUID) {
+    return this.subscriptionService.remove(id_User, id_Event);
   }
 }

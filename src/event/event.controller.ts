@@ -41,6 +41,11 @@ export class EventController {
     return this.eventService.findUpcoming();
   }
 
+  @Get('category/:category')
+  findByCategory(@Param('category') category: string) {
+    return this.eventService.findManyByCategory(category);
+  }
+
   @Patch(':id')
   update(@Param('id') id: UUID, @Body() updateEventDto: UpdateEventDto) {
     return this.eventService.update(id, updateEventDto);

@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FavoriteService } from './favorite.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
-import { UpdateFavoriteDto } from './dto/update-favorite.dto';
 import { UUID } from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 

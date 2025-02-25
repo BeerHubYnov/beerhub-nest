@@ -120,5 +120,5 @@ describe('RoleController', () => {
 
       expect(service.remove).toHaveBeenCalledWith(roleId);
     });
-});
+  });
 });

@@ -37,13 +37,13 @@ describe('UserController', () => {
   });
 
   it('should find one user', async () => {
-    const id = '233aad60-87d7-4b8f-b363-db47b6ed942c' as UUID;
+    const id = 'user_id' as UUID;
     await controller.findOne(id);
     expect(userService.findOne).toHaveBeenCalledWith(id);
   });
 
   it('should update a user', async () => {
-    const id = '233aad60-87d7-4b8f-b363-db47b6ed942c' as UUID;
+    const id = 'user_id' as UUID;
     const dto: UpdateUserDto = {
       email: 'updated@example.com',
       username: 'updateduser',
@@ -53,7 +53,7 @@ describe('UserController', () => {
   });
 
   it('should remove a user', async () => {
-    const id = '233aad60-87d7-4b8f-b363-db47b6ed942c' as UUID;
+    const id = 'user_id' as UUID;
     await controller.remove(id);
     expect(userService.remove).toHaveBeenCalledWith(id);
   });

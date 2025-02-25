@@ -21,6 +21,10 @@ export class CreateEventDto {
   @IsString()
   description: string;
 
+  @ApiProperty({ example: 'KARAOKE', description: 'Catégorie' })
+  @IsString()
+  category: string;
+
   @ApiProperty({
     example: '498d1d4c-4557-4a50-9565-626940820091',
     description: "ID de l'utilisateur propriétaire de l'événement",

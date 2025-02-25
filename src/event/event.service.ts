@@ -58,4 +58,11 @@ export class EventService {
       include: { Bar: true },
     });
   }
+
+  async findManyByCategory(category: string) {
+    return this.prisma.event.findMany({
+      where: { category },
+      include: { Bar: true },
+    });
+  }
 }

@@ -23,7 +23,7 @@ async function createUserBar() {
       email: 'bar@grizly.com',
       password: 'securepassword123',
       username: 'grizlyBdx',
-      id_Role: role.id, // Bar role
+      id_Role: role.id,
     },
   });
 
@@ -46,7 +46,8 @@ async function createUserBasic() {
   });
 
   console.log(`User created: ${user.username}`);
-}async function createUserTestFront() {
+}
+async function createUserTestFront() {
   const role = await prisma.role.findFirst({
     where: {
       name: 'User',
@@ -96,6 +97,7 @@ async function createEvent() {
       dateHour: new Date('2025-01-20T18:00:00Z'),
       title: 'Live Music Night',
       description: 'Enjoy live music and good vibes',
+      category: 'Music',
       id_Bar: bar.id,
     },
   });

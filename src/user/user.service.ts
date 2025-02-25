@@ -80,4 +80,77 @@ export class UserService {
       },
     });
   }
+
+  async sendFriendRequest(userId: string, friendId: string) {
+    return this.prisma.friendship.create({
+      data: {
+        userId,
+        friendId,
+      },
+    });
+  }
+
+  async acceptFriendRequest(userId: string, friendId: string) {
+    return this.prisma.friendship.updateMany({
+      where: {
+        userId: friendId,
+        friendId: userId,
+        status: 'PENDING',
+      },
+      data: {
+        status: 'ACCEPTED',
+      },
+    });
+  }
+
+  async getFriends(userId: string) {
+    return this.prisma.friendship.findMany({
+      where: {
+        OR: [
+          { userId, status: 'ACCEPTED' },
+          { friendId: userId, status: 'ACCEPTED' },
+        ],
+      },
+      include: {
+        User: true,
+        Friend: true,
+      },
+    });
+  }
+
+  async getFriendRequests(userId: string) {
+    return this.prisma.friendship.findMany({
+      where: {
+        friendId: userId,
+        status: 'PENDING',
+      },
+      include: {
+        User: true,
+        Friend: true,
+      },
+    });
+  }
+
+  async removeFriend(userId: string, friendId: string) {
+    return this.prisma.friendship.deleteMany({
+      where: {
+        OR: [
+          { userId, status: 'ACCEPTED' },
+          { friendId: userId, status: 'ACCEPTED' },
+          { userId: friendId, status: 'ACCEPTED' },
+          { friendId: friendId, status: 'ACCEPTED' },
+        ],
+      },
+    });
+  }
+
+  async removeFriendRequest(userId: string, friendId: string) {
+    return this.prisma.friendship.deleteMany({
+      where: {
+        userId: friendId,
+        friendId: userId,
+        status: 'PENDING',
+      },
+    });
+  }
 }

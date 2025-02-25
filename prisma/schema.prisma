@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL_DEMO")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -23,6 +23,8 @@ model User {
   Subscription                     Subscription[]
   Role                             Role           @relation(fields: [id_Role], references: [id])
   Conversation                     Conversation[] @relation("UserConversations")
+  Friendships                      Friendship[]   @relation("UserFriendships")
+  Friends                          Friendship[]   @relation("FriendFriendships")
 }
 
 model Bar {
@@ -124,4 +126,17 @@ model Message {
   Group                         Group?        @relation(fields: [groupId], references: [id])
   User_Message_receiverIdToUser User?         @relation("Message_receiverIdToUser", fields: [receiverId], references: [id])
   User_Message_senderIdToUser   User          @relation("Message_senderIdToUser", fields: [senderId], references: [id])
+}
+
+model Friendship {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  friendId   String   @db.Uuid
+  status     String   @default("PENDING") @db.VarChar(20)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  User       User     @relation("UserFriendships", fields: [userId], references: [id])
+  Friend     User     @relation("FriendFriendships", fields: [friendId], references: [id])
+
+  @@unique([userId, friendId])
 }

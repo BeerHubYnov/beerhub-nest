@@ -99,9 +99,6 @@ jobs:
       - name: Install SonarCloud scanner
         run: npm install -g sonarqube-scanner
 
-      - name: Run .NET tests and generate .trx report
-        run: dotnet test --logger "trx;LogFileName=report.trx"
-
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

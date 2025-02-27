@@ -113,6 +113,4 @@ jobs:
             -Dsonar.tests=src \
             -Dsonar.test.inclusions=src/**/*.spec.ts \
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-            -Dsonar.cs.vstest.reportsPaths=report.trx
-
 

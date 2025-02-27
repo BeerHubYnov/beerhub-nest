@@ -1,4 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+
+dotenv.config();
 
 const prisma = new PrismaClient();
 
@@ -18,10 +22,11 @@ async function createUserBar() {
       name: 'Bar',
     },
   });
+  const hashedPassword = await bcrypt.hash(process.env.BAR_USER_PASSWORD, 10);
   const user = await prisma.user.create({
     data: {
       email: 'bar@grizly.com',
-      password: 'securepassword123',
+      password: hashedPassword,
       username: 'grizlyBdx',
       id_Role: role.id,
     },
@@ -36,10 +41,11 @@ async function createUserBasic() {
       name: 'User',
     },
   });
+  const hashedPassword = await bcrypt.hash(process.env.BASIC_USER_PASSWORD, 10);
   const user = await prisma.user.create({
     data: {
       email: 'user@bordeaux.com',
-      password: 'TestBx',
+      password: hashedPassword,
       username: 'userBdx',
       id_Role: role.id, // User role
     },
@@ -47,16 +53,18 @@ async function createUserBasic() {
 
   console.log(`User created: ${user.username}`);
 }
+
 async function createUserTestFront() {
   const role = await prisma.role.findFirst({
     where: {
       name: 'User',
     },
   });
+  const hashedPassword = await bcrypt.hash(process.env.TEST_USER_PASSWORD, 10);
   const user = await prisma.user.create({
     data: {
       email: 'test@test.com',
-      password: 'test',
+      password: hashedPassword,
       username: 'test',
       id_Role: role.id, // User role
     },

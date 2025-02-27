@@ -106,5 +106,5 @@ jobs:
           sonar-scanner \
           -Dsonar.organization=beerhubynov \
           -Dsonar.projectKey=BeerHubYnov_beerhub-nest \
-          -Dsonar.sources=. \
+          -Dsonar.sources=.
           -Dsonar.test.inclusions=src/**/*.spec.ts

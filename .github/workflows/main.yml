@@ -108,4 +108,6 @@ jobs:
           -Dsonar.projectKey=BeerHubYnov_beerhub-nest \
           -Dsonar.sources=. \
           -Dsonar.test.inclusions=src/**/*.spec.ts
-          
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
+

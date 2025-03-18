@@ -1,4 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+
+dotenv.config();
 
 const prisma = new PrismaClient();
 
@@ -18,12 +22,13 @@ async function createUserBar() {
       name: 'Bar',
     },
   });
+  const hashedPassword = await bcrypt.hash(process.env.BAR_USER_PASSWORD, 10);
   const user = await prisma.user.create({
     data: {
       email: 'bar@grizly.com',
-      password: 'securepassword123',
+      password: hashedPassword,
       username: 'grizlyBdx',
-      id_Role: role.id, // Bar role
+      id_Role: role.id,
     },
   });
 
@@ -36,11 +41,31 @@ async function createUserBasic() {
       name: 'User',
     },
   });
+  const hashedPassword = await bcrypt.hash(process.env.BASIC_USER_PASSWORD, 10);
   const user = await prisma.user.create({
     data: {
       email: 'user@bordeaux.com',
-      password: 'securepassword123',
+      password: hashedPassword,
       username: 'userBdx',
+      id_Role: role.id, // User role
+    },
+  });
+
+  console.log(`User created: ${user.username}`);
+}
+
+async function createUserTestFront() {
+  const role = await prisma.role.findFirst({
+    where: {
+      name: 'User',
+    },
+  });
+  const hashedPassword = await bcrypt.hash(process.env.TEST_USER_PASSWORD, 10);
+  const user = await prisma.user.create({
+    data: {
+      email: 'test@test.com',
+      password: hashedPassword,
+      username: 'test',
       id_Role: role.id, // User role
     },
   });
@@ -80,6 +105,7 @@ async function createEvent() {
       dateHour: new Date('2025-01-20T18:00:00Z'),
       title: 'Live Music Night',
       description: 'Enjoy live music and good vibes',
+      category: 'Music',
       id_Bar: bar.id,
     },
   });
@@ -142,6 +168,7 @@ async function main() {
     await createEvent();
     await createFavorite();
     await createAssessment();
+    await createUserTestFront();
   } catch (error) {
     console.error('Error creating roles:', error);
   } finally {

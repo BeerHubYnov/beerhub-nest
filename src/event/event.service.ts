@@ -6,7 +6,7 @@ import { UUID } from 'crypto';
 
 @Injectable()
 export class EventService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createEventDto: CreateEventDto) {
     return this.prisma.event.create({
@@ -55,6 +55,13 @@ export class EventService {
           gte: today,
         },
       },
+      include: { Bar: true },
+    });
+  }
+
+  async findManyByCategory(category: string) {
+    return this.prisma.event.findMany({
+      where: { category },
       include: { Bar: true },
     });
   }

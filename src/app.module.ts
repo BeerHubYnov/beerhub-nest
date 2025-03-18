@@ -7,7 +7,8 @@ import { EventModule } from './event/event.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { AssessmentModule } from './assessment/assessment.module';
 import { AuthModule } from './auth/auth.module';
-import { ChatModule } from './chat/chat.module';
+import { RoleModule } from './role/role.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { ChatModule } from './chat/chat.module';
     FavoriteModule,
     AssessmentModule,
     AuthModule,
-    ChatModule,
+    RoleModule,
+    SubscriptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
